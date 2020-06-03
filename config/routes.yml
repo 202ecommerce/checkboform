@@ -1,0 +1,15 @@
+checkboform_settings_update:
+    path: /checkboform/settings
+    methods: [POST]
+    defaults:
+      _controller: 'Checkboform\Controller\Admin\AdminCheckboformSettings::processFormAction'
+      _legacy_controller: 'AdminCheckboformSettings'
+      _legacy_link: 'AdminCheckboformSettings'
+
+checkboform_settings:
+    path: /checkboform/settings
+    methods: [GET]
+    defaults:
+      _controller: 'Checkboform\Controller\Admin\AdminCheckboformSettings::indexAction'
+      _legacy_controller: 'AdminCheckboformSettings'
+      _legacy_link: 'AdminCheckboformSettings'

@@ -1,0 +1,38 @@
+services:
+  _defaults:
+    public: true
+
+  checkboform.settings.form:
+    class: 'Checkboform\Form\Settings'
+    arguments: ['@prestashop.adapter.legacy.configuration']
+
+  checkboform.settings.form_data_provider:
+    class: Checkboform\Form\SettingsFormDataProvider
+    arguments:
+      - '@checkboform.settings.form'
+
+  checkboform.settings.general.form.type:
+    class: Checkboform\Form\Type\SettingsType
+    parent: 'form.type.common_type'
+    public: true
+    arguments:
+        - "@router"
+        - "@translator"
+        - "@prestashop.adapter.shop.context"
+        - "@prestashop.adapter.data_provider.country"
+        - "@prestashop.adapter.data_provider.currency"
+        - "@prestashop.adapter.data_provider.group"
+        - "@prestashop.adapter.legacy.context"
+        - "@prestashop.adapter.data_provider.customer"
+    tags:
+      - { name: form.type }
+
+  checkboform.core.settings.form_handler:
+    class: 'PrestaShop\PrestaShop\Core\Form\FormHandler'
+    arguments:
+      $formBuilder: '@=service("form.factory").createBuilder()'
+      $hookDispatcher: '@prestashop.core.hook.dispatcher'
+      $formDataProvider: '@checkboform.settings.form_data_provider'
+      $formTypes:
+        'settings': 'Checkboform\Form\Type\SettingsType'
+      $hookName: 'AdminCheckboformFromHelp'
