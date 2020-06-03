@@ -31,7 +31,7 @@ if (!defined('_PS_VERSION_')) {
 /*
  * Run 'composer install' if the 'vendor' folder doesn't exist
  */
-require_once _PS_MODULE_DIR_ . '/totcachepage/vendor/autoload.php';
+require_once _PS_MODULE_DIR_ . '/checkboform/vendor/autoload.php';
 
 
 class Checkboform extends Module
@@ -53,7 +53,7 @@ class Checkboform extends Module
 
     /** @var array filled with known compliant PS versions */
     public $ps_versions_compliancy = array(
-        'min' => '1.7.7.0',
+        'min' => '1.7.6.0',
         'max' => '1.7.9.99'
     );
 

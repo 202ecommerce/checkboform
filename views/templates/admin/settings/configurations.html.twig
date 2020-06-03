@@ -41,9 +41,11 @@
                         <div class="card-text">
                             <div class="row">
                                 <div class="col">
-                                    {{ ps.infotip('Hello world !'|trans({}, 'Modules.Totcachepage.Admin')) }}
+                                    {{ ps.warningtip('This is related to #19540. help is defined but not displayed. If you remove this form_row, form_rest display the field "Yes and No" with help but without popover tooltip.'|trans({}, 'Modules.Totcachepage.Admin')) }}
                                 </div>
                             </div>
+                                {{ form_row(settings.CHECKBOFORM_YESANDNO) }}
+                                <hr>
                             {% block form_rest %}
                                 {{ form_rest(settings) }}
                             {% endblock %}

@@ -60,6 +60,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use PrestaShop\PrestaShop\Adapter\Category\CategoryDataProvider;
 
 use Checkboform;
 
@@ -79,7 +80,8 @@ class SettingsType extends TranslatorAwareType
         $currencyDataprovider,
         $groupDataprovider,
         $legacyContext,
-        $customerDataprovider
+        $customerDataprovider,
+        CategoryDataProvider $categoryDataProvider
     )
     {
         $this->router = $router;
@@ -98,6 +100,8 @@ class SettingsType extends TranslatorAwareType
         );
         $this->currency = $legacyContext->getContext()->currency;
         $this->customerDataprovider = $customerDataprovider;
+        $this->categoryProvider = $categoryDataProvider;
+
 
         $this->selectList = [
             'displayBanner' => 'displayBanner',
@@ -114,12 +118,13 @@ class SettingsType extends TranslatorAwareType
                 'label' => $this->translator->trans('Yes and No', [], 'Module.Checkboform.Admin'),
                 'required' => false,
                 'expanded' => true,
-                'help' => $this->translator->trans('Set "expanded" to false to show a select instead of radio button.', [], 'Module.Checkboform.Admin'),
+                'help' => 'Set "expanded" to false to show a select instead of radio button. attr with class form-check-inline display radio inline',
+                'attr' => [
+                    'class' => 'form-check-inline pt-2',
+                ],
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
+                    'class' => 'pr-3',
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -128,18 +133,17 @@ class SettingsType extends TranslatorAwareType
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'multiple' => true,
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
             ->add('CHECKBOFORM_CATEGORIESTREE', ChoiceCategoriesTreeType::class, [
                 'label' => $this->translator->trans('Categories tree', [], 'Module.Checkboform.Admin'),
-                'multiple' => true,
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
+                'list' => $this->categoryProvider->getNestedCategories(),
+                'valid_list' => [],
+                'multiple' => false,
             ]);
         $builder
             ->add('CHECKBOFORM_COUNTRY', CountryChoiceType::class, [
@@ -147,10 +151,7 @@ class SettingsType extends TranslatorAwareType
              //   'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -159,10 +160,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -171,10 +169,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -183,10 +178,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -195,10 +187,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -207,10 +196,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -219,10 +205,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -231,10 +214,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
             /**
@@ -244,13 +224,10 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
-            * */
+*/
             /**
         $builder
             ->add('CHECKBOFORM_IPADDRESS', IpAddressType::class, [
@@ -259,10 +236,7 @@ class SettingsType extends TranslatorAwareType
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 //'currentIp' => '127.0.0.1',
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
 */
@@ -273,10 +247,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
 */
@@ -287,10 +258,7 @@ class SettingsType extends TranslatorAwareType
                 'multiple' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
             /**
@@ -300,10 +268,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
 */
@@ -313,10 +278,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -326,10 +288,7 @@ class SettingsType extends TranslatorAwareType
                 'max_length' => 128,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -347,10 +306,7 @@ class SettingsType extends TranslatorAwareType
                     ],
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -359,10 +315,7 @@ class SettingsType extends TranslatorAwareType
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'required' => false,
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
 
@@ -372,10 +325,7 @@ class SettingsType extends TranslatorAwareType
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'required' => false,
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -390,10 +340,7 @@ class SettingsType extends TranslatorAwareType
                 'label' => $this->translator->trans('Add customer', [], 'Admin.Catalog.Feature'),
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -413,10 +360,7 @@ class SettingsType extends TranslatorAwareType
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'required' => false,
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
 
@@ -430,10 +374,7 @@ class SettingsType extends TranslatorAwareType
                 'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -443,12 +384,13 @@ class SettingsType extends TranslatorAwareType
                 'expanded' => true,
                 'required' => false,
                 'choices' => $this->selectList,
+                'attr' => [
+                    'class' => 'form-check-inline pt-2'
+                ],
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
+                    'class' => 'pr-3',
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
 
             ]);
@@ -461,10 +403,7 @@ class SettingsType extends TranslatorAwareType
                 'choices' => $this->selectList,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -476,10 +415,7 @@ class SettingsType extends TranslatorAwareType
                 'choices' => $this->selectList,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
         $builder
@@ -491,10 +427,7 @@ class SettingsType extends TranslatorAwareType
                 'choices' => $this->selectList,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
-                    'tooltip' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
-                    'popover_placement' => 'right',
-                    'class' => 'px-0',
                 ],
             ]);
     }
