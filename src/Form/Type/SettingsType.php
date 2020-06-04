@@ -228,7 +228,6 @@ class SettingsType extends TranslatorAwareType
                 ],
             ]);
 */
-            /**
         $builder
             ->add('CHECKBOFORM_IPADDRESS', IpAddressType::class, [
                 'label' => $this->translator->trans('IP address', [], 'Module.Checkboform.Admin'),
@@ -239,7 +238,6 @@ class SettingsType extends TranslatorAwareType
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 ],
             ]);
-*/
             /**
         $builder
             ->add('CHECKBOFORM_RESIZABLETEXT', ResizableTextType::class, [
@@ -363,8 +361,6 @@ class SettingsType extends TranslatorAwareType
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 ],
             ]);
-
-
 
 
 
