@@ -52,6 +52,7 @@ use PrestaShopBundle\Form\Admin\Type\{SwitchType,
     TranslatorAwareType};
 
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -139,7 +140,7 @@ class SettingsType extends TranslatorAwareType
         $builder
             ->add('CHECKBOFORM_CATEGORIESTREE', ChoiceCategoriesTreeType::class, [
                 'label' => $this->translator->trans('Categories tree', [], 'Module.Checkboform.Admin'),
-                'required' => false,
+                'required' => true,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'list' => $this->categoryProvider->getNestedCategories(),
                 'valid_list' => [],
@@ -148,7 +149,7 @@ class SettingsType extends TranslatorAwareType
         $builder
             ->add('CHECKBOFORM_COUNTRY', CountryChoiceType::class, [
                 'label' => $this->translator->trans('Country tree', [], 'Module.Checkboform.Admin'),
-             //   'required' => false,
+                'required' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
@@ -179,6 +180,15 @@ class SettingsType extends TranslatorAwareType
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => $this->translator->trans(
+                            'The field is required.',
+                            [],
+                            'Admin.Notifications.Error'
+                        ),
+                    ]),
                 ],
             ]);
         $builder
@@ -252,14 +262,14 @@ class SettingsType extends TranslatorAwareType
         $builder
             ->add('CHECKBOFORM_SHOPCHOICETREE', ShopChoiceTreeType::class, [
                 'label' => $this->translator->trans('Shop Choice Tree', [], 'Module.Checkboform.Admin'),
-                'required' => false,
+                'required' => true,
                 'multiple' => false,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 ],
             ]);
-            /**
+
         $builder
             ->add('CHECKBOFORM_SHOPRESTRICTION', ShopRestrictionCheckboxType::class, [
                 'label' => $this->translator->trans('Shop Restriction', [], 'Module.Checkboform.Admin'),
@@ -267,9 +277,13 @@ class SettingsType extends TranslatorAwareType
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
                     'popover' => $this->translator->trans('Tooltip me I\'m famous !', [], 'Module.Checkboform.Admin'),
+                ],                'attr' => [
+                    'is_allowed_to_display' => true,
+                    'data-shop-restriction-target' => 'test',
                 ],
+
             ]);
-*/
+
         $builder
             ->add('CHECKBOFORM_SWITCH', SwitchType::class, [
                 'label' => $this->translator->trans('Switch', [], 'Module.Checkboform.Admin'),
@@ -362,8 +376,6 @@ class SettingsType extends TranslatorAwareType
                 ],
             ]);
 
-
-
         $builder
             ->add('CHECKBOFORM_TEXTAREA', TextareaType::class, [
                 'label' => $this->translator->trans('Texarea', [], 'Module.Checkboform.Admin'),
@@ -378,7 +390,7 @@ class SettingsType extends TranslatorAwareType
                 'label' => $this->translator->trans('Checkbox', [], 'Module.Checkboform.Admin'),
                 'multiple' => true,
                 'expanded' => true,
-                'required' => false,
+                'required' => true,
                 'choices' => $this->selectList,
                 'attr' => [
                     'class' => 'form-check-inline pt-2'
@@ -407,7 +419,7 @@ class SettingsType extends TranslatorAwareType
                 'label' => $this->translator->trans('Select', [], 'Module.Checkboform.Admin'),
                 'multiple' => false,
                 'expanded' => false,
-                'required' => false,
+                'required' => true,
                 'choices' => $this->selectList,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [
@@ -419,7 +431,7 @@ class SettingsType extends TranslatorAwareType
                 'label' => $this->translator->trans('Checkbox', [], 'Module.Checkboform.Admin'),
                 'multiple' => true,
                 'expanded' => false,
-                'required' => false,
+                'required' => true,
                 'choices' => $this->selectList,
                 'help' => $this->translator->trans('Help me I\'m famous !', [], 'Module.Checkboform.Admin'),
                 'label_attr' => [

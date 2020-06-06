@@ -12,8 +12,8 @@ import FormSubmitButton from '../../../../../admin202/themes/new-theme/js/compon
 import ChoiceTree from '../../../../../admin202/themes/new-theme/js/components/form/choice-tree';
 import GeneratableInput from '../../../../../admin202/themes/new-theme/js/components/generatable-input';
 import TextWithLengthCounter from '../../../../../admin202/themes/new-theme/js/components/form/text-with-length-counter';
-import TextWithRecommandedLength from '../../../../../admin202/themes/new-theme/js/components/form/text-with-recommended-length-counter';
-/*import productSearchAutocomplete from '../../../../../admin202/themes/new-theme/js/product-page/product-search-autocomplete';*/
+import TextWithRecommendedLengthCounter from '../../../../../admin202/themes/new-theme/js/components/form/text-with-recommended-length-counter';
+/**import productSearchAutocomplete from '../../../../../admin202/themes/new-theme/js/product-page/product-search-autocomplete';*/
 import IpInput from '../../../../../admin202/themes/new-theme/js/maintenance-page/ip-input';
 
 $(() => {
@@ -25,8 +25,8 @@ $(() => {
 
     const generatableInput = new GeneratableInput();
     generatableInput.attachOn('.js-generator-btn');
-    /*  productSearchAutocomplete(); */
+  //    productSearchAutocomplete();
 IpInput.init();
   new TextWithLengthCounter();
-  //new TextWithRecommendedLengthCounter();
+  new TextWithRecommendedLengthCounter();
 });

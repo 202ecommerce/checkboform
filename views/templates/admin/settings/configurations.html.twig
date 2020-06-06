@@ -26,9 +26,9 @@
 {% trans_default_domain "Modules.Checkboform.Admin" %}
 {% import '@PrestaShop/Admin/macros.html.twig' as ps %}
 
-
 {% block content %}
     {% set settings = form.settings %}
+
     {{ form_start(settings, {'attr' : {'class': 'form', 'id': 'cachepage'} }) }}
     <div class="row justify-content-center">
         {% block checkboform_form_settings %}
